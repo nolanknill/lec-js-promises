@@ -1,16 +1,3 @@
-/*
-let promise = asyncPromiseFunc();
-promise.then(
-  (result) => {
-    console.log(result);
-  },
-  (errorObject) => {
-    console.error(errorObject.error);
-  }
-)
-*/
-
-
 let promise = getContestants();
 
 promise.then(
@@ -29,18 +16,44 @@ promise.then(
       listEl.appendChild(itemEl);
     })
 
-  },
+    return result[0];
+  }
+).then(
+  (firstContestant) => {
+    return getContestant(firstContestant.id);
+  }
+).then(
+  (result) => {
+    console.log("Result of getContestant");
+    console.log(result);
+
+    // TODO: Add our contestant information to the DOM
+  }
+).catch(
   (errorObject) => {
-    // Error message as string in errorObject.error
-    console.error(errorObject.error);
-    
-    document.querySelector(".contestants__loading").remove();
-    const contestantsEl = document.querySelector(".contestants");
+    if (errorObject.error) {
+      // Error message as string in errorObject.error
+      console.error(errorObject.error);
+      
+      document.querySelector(".contestants__loading").remove();
+      const contestantsEl = document.querySelector(".contestants");
 
-    const errorEl = document.createElement("p");
-    errorEl.innerText = errorObject.error + ". Try refreshing the page";
+      const errorEl = document.createElement("p");
+      errorEl.innerText = errorObject.error + ". Try refreshing the page";
 
-    contestantsEl.appendChild(errorEl);
-
+      contestantsEl.appendChild(errorEl);
+    }
   }
 )
+
+
+Promise.all([
+  getContestantsFirstHalf(),
+  getContestantsSecondHalf()
+])
+.then(values => {
+  console.log("Promise.all values: ", values);
+}).catch(error => {
+  console.log("Promise.all error: ", error);
+})
+

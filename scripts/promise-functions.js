@@ -145,3 +145,22 @@ function getContestantsRejected() {
         }, generateRandomNumber(1000, 1500));
     });
 }
+
+
+
+
+function getContestantsFirstHalf() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([contestants[0], contestants[1], contestants[2]]);
+        }, generateRandomNumber(1000, 1500));
+    });
+}
+
+function getContestantsSecondHalf() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([contestants[3], contestants[4], contestants[5]]);
+        }, generateRandomNumber(1000, 1500));
+    });
+}
